@@ -5,3 +5,9 @@ a {
 .navbar-custom{
     background-color: #32409A;
 }
+
+.error {
+  color: red;
+  margin-left: 5px;
+  display: inline;
+}

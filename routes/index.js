@@ -25,9 +25,23 @@ router.get('/login', function(req, res) {
 });
 
 /* POST user logs in */
-router.post('/login', passport.authenticate('local', { successRedirect: '/home',
-  failureRedirect: '/login'}), function(req, res) {
-  console.log("could not login??");
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info){
+    if(err){
+      return next(err);
+    }
+    if(!user){
+      return console.log('authentication failed');
+    }
+    req.login(user, loginErr => {
+      if(loginErr){
+        return next(loginErr);
+      }
+      res.redirect('/home')
+      return console.log('authentication succeed');
+    });
+  })(req,res,next);
+  console.log(req.body.email);
 });
 
 /* GET sign-up page */
