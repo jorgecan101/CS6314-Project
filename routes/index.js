@@ -1,11 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-// var monk = require('monk');
-// var db = monk('localhost:27017/library');
-// var libraryDB = db.get('books');
-// var usersDB = db.get('users'); // TODO: Create users database
-mongoose.connect('mongodb://localhost:27017/library');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', function callback() {
@@ -14,52 +9,55 @@ db.once('open', function callback() {
 var passport = require('passport');
 var Account = require('../models/account');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+/* GET redirect to home page. */
+router.get('/', function(req, res) {
   res.redirect('/home');
+});
+
+/* GET home page */
+router.get('/home', function(req, res) {
+  res.render('homepage', {user: req.user});
 });
 
 /* GET login page */
-router.get('/login', function(req, res, next) {
-  res.render('login'); // This should render the ejs file for login page
+router.get('/login', function(req, res) {
+  res.render('login');
 });
 
-router.post('/login', passport.authenticate('local'), function(req,res){
-  if(err) {
-    // console.log(req + "request does not go through");
-    res.redirect('/login');
-    throw err;
-  }
-  res.redirect('/home');
+/* POST user logs in */
+router.post('/login', passport.authenticate('local', { successRedirect: '/home',
+  failureRedirect: '/login'}), function(req, res) {
+  console.log("could not login??");
 });
 
 /* GET sign-up page */
-router.get('/register', function(req, res, next) {
-  res.render('register'); // This should render the ejs file for register page
+router.get('/register', function(req, res) {
+  res.render('register');
 });
 
 /* POST send new user data to database and redirect to sign in page */
 router.post('/register', function(req,res) {
-  account = new Account({email: req.body.email, name: req.body.name});
+  const account = new Account({
+    email: req.body.email,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    username: req.body.username
+  });
   Account.register(account, req.body.password, function(err, account){
     if(err) {
-      console.log("hello"); // Testing
+      // TODO: Add something to tell user why they couldn't log in (i.e. User with account already exists, etc..)
       return res.render('register', {account : account});
     }
-    res.redirect('/login');
-//    passport.authenticate('local')(req,res, function(){
-//      res.redirect('/login');
-//    })
+    passport.authenticate('local')(req,res, function() { 
+      res.redirect('/login');
+    });
   });
 });
 
-/* GET home page */
-router.get('/home', function(req, res, next) {
-  res.render('homepage', {user: req.user}); // This should render the ejs file for homepage
-});
-
 // TODO: Add more views that we may be able to use
-
+router.get('/catalog', function(req, res) {
+  res.render('catalog');
+});
 
 module.exports = router;
 
