@@ -7,7 +7,7 @@
 - npm install passport-local
 - npm install express-session
 - npm install passport-local-mongoose
--...
+- ...
 
 ## To Run: 
 - Have MongoDB server runnning in background
