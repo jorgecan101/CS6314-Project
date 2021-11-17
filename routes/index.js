@@ -69,8 +69,15 @@ router.post('/register', function(req,res) {
 });
 
 // TODO: Add more views that we may be able to use
+
+/* GET catalog page */
 router.get('/catalog', function(req, res) {
   res.render('catalog');
+});
+
+/* GET cart page */
+router.get('/cart', function(req, res) {
+  res.render('cart');
 });
 
 module.exports = router;
