@@ -1,5 +1,45 @@
 <%- include ('partials/header') %>
 
-Here we are at the catalog page. Coming soon...
+<div class="jumbotron">
+    <h1 class="display-4">Book Catalog</h1>
+    <p class="lead">This is the list of books</p>
+    <a class="btn btn-primary btn-md" href="/books/new" role="button">
+      Add new video</a
+    >
+    <form action="videos" class="form-group" method="GET">
+      <br>
+      <input name="search" type="text" placeholder="Enter Title.." />
+      <br>
+      <label for="videos">Choose a genre:</label>
+  
+      <select
+        name="genre"
+        class="form-group"
+        id="videos"
+        onchange="searchGenre()"
+      >
+        <option value="choose">Choose</option>
+        <option value="scifi">SciFi</option>
+        <option value="fantasy">Fantasy</option>
+        <option value="drama">Drama</option>
+        <option value="animation">Animation</option>
+      </select>
+  
+      <button type="submit" class="btn btn-primary btn-md">Search</button>
+    </form>
+  </div>
+  
+  <div class="container">
+    <div class="row">
+      <% books.forEach(function(book){ %>
+      <div class="sm-col-3">
+        <!--<img src="images/<%= video.image %>" style="width: 200px; height: 200px;" class="img-thumbnail"/>-->
+        <div class="caption"><a href="books/<%= book._id %>"><%= book.title %></a></div>
+      </div>
+  
+      <% }); %>
+      
+    </div>
+  </div>
 
 <%- include ('partials/footer') %>
