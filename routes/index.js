@@ -63,7 +63,8 @@ router.post('/register', function(req,res) {
       return res.render('register', {account : account});
     }
     passport.authenticate('local')(req,res, function() { 
-      res.redirect('/login');
+      //res.redirect('/login');
+      res.json({status: "Success", redirect: '/login'});
     });
   });
 });

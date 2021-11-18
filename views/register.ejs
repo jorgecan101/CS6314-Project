@@ -5,7 +5,7 @@
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
             <h3>Register</h3>
-            <form id="form" action="/register" method="POST">
+            <form id="registerForm" action="/register" method="POST">
                 <div class="form-group">
                     <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email">
                 </div>
@@ -23,7 +23,9 @@
                 </div>
                 
                 <!-- TODO: Add verify password here?? With that there should also be functionality where it checks if passwords are equal -->
-
+                <div class="form-group">
+                    <input type="password" name="confirm" id="confirm" class="form-control" placeholder="Confirm password">
+                </div>
                 <div class="form-group">
                     <button id="submit" type="submit" class="btn btn-primary">Submit<button>
                 </div>

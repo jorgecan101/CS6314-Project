@@ -2,10 +2,41 @@
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-              <h1 class="display-4">Public Library</h1>
-              <p class="lead">Welcome to our public library system. More to be added in the future. </p>
+              <h1 class="display-4 justify-content-center">Public Library</h1>
+              <p class="lead">Welcome to the Public Library System. We are open and offer a variety of services to help enrich our 
+                community. Feel free to check out any books that are in our catalog, or use any of our available sources we have available
+                at our location.</p>              
+            </div>
+        </div>
+
+        <!-- TODO: Fix the carousel so it looks nicer. (inside images used to be d-block and w-100)-->
+
+        <div id="carouselExampleIndicators" class="carousel slide custom-margins" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner justify-content-center">
+            <div class="carousel-item active">
+              <img src="../images/carousel-1.jpg" class="img-size-change" alt="Library Gathering">
+            </div>
+            <div class="carousel-item">
+              <img src="../images/carousel-2.jpg" class="img-size-change" alt="Man reading with headphones">
+            </div>
+            <div class="carousel-item">
+              <img src="../images/carousel-3.jpg" class="img-size-change" alt="Library Computers">
             </div>
           </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
 
 
 <%- include ('partials/footer') %>
