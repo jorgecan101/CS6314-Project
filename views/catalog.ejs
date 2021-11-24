@@ -1,11 +1,30 @@
 <%- include ('partials/header') %>
 
+<div class="search-bar">
+  <form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</div>
+
+<div class="container">
+  <% results.forEach(function(books) { %>
+    <div class="sm-col-3">
+      text
+      <!-- <img src="images/<%= book.image %>" style="width:200px; height:200px;" class="img-thumbnail" alt="img alt"/> -->
+
+    </div>
+<% }); %>
+
+
+</div>
+
+
+<!--
 <div class="jumbotron">
     <h1 class="display-4">Book Catalog</h1>
     <p class="lead">This is the list of books</p>
-    <a class="btn btn-primary btn-md" href="/books/new" role="button">
-      Add new video</a
-    >
+    <a class="btn btn-primary btn-md" href="/books/new" role="button">Add new video</a>
     <form action="videos" class="form-group" method="GET">
       <br>
       <input name="search" type="text" placeholder="Enter Title.." />
@@ -33,7 +52,12 @@
     <div class="row">
       <% books.forEach(function(book){ %>
       <div class="sm-col-3">
+
+
+-->
+
         <!--<img src="images/<%= video.image %>" style="width: 200px; height: 200px;" class="img-thumbnail"/>-->
+        <!--
         <div class="caption"><a href="books/<%= book._id %>"><%= book.title %></a></div>
       </div>
   
@@ -41,5 +65,7 @@
       
     </div>
   </div>
+        -->
+
 
 <%- include ('partials/footer') %>

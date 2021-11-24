@@ -2,6 +2,31 @@
 
 <h1>Test</h1>
 <p>user should be able to add to their cart here. The user should also be logged in. </p>
+<% if (products.length > 0) { %>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <table class="table">
+                    <tr>
+                        <td>PRODUCT</td>
+                        <td>PRICE</td>
+                        <td>QTY</td>
+                        <td>TOTAL</td>
+                    </tr>
+                    <% products.forEach(function(product){ %>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    <% }); %>
+                </table>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
+<% } else { %>
+    <p>No Products in cart</p>
+<% } %>
 
 
 <%- include ('partials/footer') %>
