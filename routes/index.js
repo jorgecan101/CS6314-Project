@@ -140,6 +140,25 @@ router.get('/catalog', function(req, res) {
   }
 });
 
+/* GET pages
+router.get('/catalog/:page', function(req, res, next) {
+  var collection = db.get("books");
+  var perPage = 9
+  var page = req.params.page || 1
+
+  collection.find({}).skip((perPage * page) - perPage).limit(perPage).exec(function(err, products) {
+          collection.count().exec(function(err, count) {
+              if (err) return next(err)
+              res.render('catalog', {
+                  books: books,
+                  current: page,
+                  pages: Math.ceil(count / perPage)
+              })
+          })
+      })
+})
+*/
+
 /* GET book/id for getting to page about specific book */
 router.get('/book/:id', function(req, res) {
   Book.findOne({_id : req.params.id}, function(err, book) {

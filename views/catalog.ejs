@@ -12,8 +12,13 @@
       <select name="genre" id="genre">
         <option value="all">All</option>
         <option value="General and Literary Fiction">General and Literary Fiction</option>
-        <option value="Picture Books">Picture Books</option>
         <option value="Young Adult Fiction">Young Adult Fiction</option>
+        <option value="Children's Fiction">Children's Fiction</option>
+        <option value="Crime">Crime</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Romance">Romance</option>
+        <option value="Saga">Saga</option>
       </select>
       <input type="submit" value="Search">
     </form> 
@@ -24,17 +29,13 @@
       Add new book</a>
   <%} %>
 </div>
-
+<!--
 <div class="container">
   <div class="row">
     <% books.forEach(function(book) { %>
-      <script>
-        
-      </script>
-      
       <div class="col-sm-3">
         <div class="card myContent">
-          <img src="..." class="card-img-top" alt="...">
+          <img src="../images/<%=book.image %>" class="card-img-top" alt="<%= book.title %>">
           <div class="card-body">
             <h5 class="card-title"><%= book.title %></h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -45,11 +46,21 @@
     <% }); %>
   </div>
 </div>
-
+-->
 <div class="container">
-  <div id="pagination-container">
-    <ul id="paging"></ul>
+  <div class="row">
+    <% for (var i = 0; i < books.length; i++) { %>
+      <div class="col-sm-3">
+        <div class="card myContent">
+          <img src="../images/<%=books[i].image %>" class="card-img-top" alt="<%= books[i].title %>">
+          <div class="card-body">
+            <h5 class="card-title"><%= books[i].title %></h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="book/<%= books[i]._id %>" class="btn btn-primary">Book details</a>
+          </div>
+        </div>
+      </div>
+    <% } %>
   </div>
 </div>
-
 <%- include ('partials/footer') %>

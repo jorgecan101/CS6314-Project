@@ -1,0 +1,268 @@
+/* 1 */
+{
+    "title" : "The Da Vinci Code",
+    "author" : "Dan Brown",
+    "publisher" : "Transworld",
+    "genre" : ["Crime", "Thriller", "Adventure"],
+    "description" : "Harvard symbologist Robert Langdon and French cryptologist Sophie Neveu work to solve the murder of an elderly curator of the Louvre, a case which leads to clues hidden in the works of Da Vinci and a centuries-old secret society.",
+    "image" : "davinci.jpg",
+    "isbn" : "9780385504201"
+}
+
+/* 2 */
+{
+    "title" : "Harry Potter and the Deathly Hallows",
+    "author" : "J.K Rowling",
+    "publisher" : "Bloomsbury",
+    "genre" : ["Children's Fiction"],
+    "description" : "Burdened with the dark, dangerous, and seemingly impossible task of locating and destroying Voldemort's remaining Horcruxes, Harry, feeling alone and uncertain about his future, struggles to find the inner strength he needs to follow the path set out before him.",
+    "image" : "harrypotter.jpg",
+    "isbn" : "9780545583008"
+}
+
+/* 3 */
+{
+    "title" : "Twilight",
+    "author" : "Stephenie Meyer",
+    "publisher" : "Little, Brown Book",
+    "genre" : ["Young Adult Fiction"],
+    "description" : "When seventeen-year-old Bella leaves Phoenix to live with her father in Forks, Washington, she meets an exquisitely handsome boy at school for whom she feels an overwhelming attraction and who she comes to realize is not wholly human.",
+    "image" : "twilight.jpg",
+    "isbn" : "9780316015844"
+}
+
+/* 4 */
+{
+    "title" : "The Ghost",
+    "author" : "Robert Harris",
+    "publisher" : "Random House",
+    "genre" : ["General and Literary Fiction"],
+    "description" : "Lang's former aide, Mike McAra, has been struggling to ghost the former politician's memoirs. However, as the novel opens, McAra drowns when he apparently falls off the Woods Hole ferry. The fictional narrator of The Ghost, whose name is never revealed, is hired to replace him. His girlfriend walks out on him over his willingness to take the job. He soon suspects foul play and stumbles across evidence of possible motive, buried in Lang's Cambridge past. Having located what may be the lethal secret, the replacement ghostwriter begins to fear for his own safety.",
+    "image" : "theghost.jpg",
+    "isbn" : "9781416551812"
+}
+
+/* 5 */
+{
+    "title" : "Life of Pi",
+    "author" : "Yann Martel",
+    "publisher" : "Canongate",
+    "genre" : ["General and Literary Fiction"],
+    "description" : "Possessing encyclopedia-like intelligence, unusual zookeeper's son Pi Patel sets sail for America, but when the ship sinks, he escapes on a life boat and is lost at sea with a dwindling number of animals until only he and a hungry Bengal tiger remain.",
+    "image" : "pi.jpg",
+    "isbn" : "9780156027328"
+}
+
+/* 6 */
+{
+    "title" : "Harry Potter and the Sorcerer's Stone",
+    "author" : "J.K Rowling",
+    "publisher" : "Bloomsbury",
+    "description" : "Rescued from the outrageous neglect of his aunt and uncle, a young boy with a great destiny proves his worth while attending Hogwarts School for Witchcraft and Wizardry.",
+    "genre" : ["Children's Fiction"],
+    "image" : "harrypotter2.jpg",
+    "isbn" : "9780590353403"
+}
+
+/* 7 */
+{
+    "title" : "Fifty Shades of Grey",
+    "author" : "E.L. James",
+    "publisher" : "Random House",
+    "genre" : ["Romance", "Saga"],
+    "description" : "When literature student Anastasia Steele is drafted to interview the successful young entrepreneur Christian Grey for her campus magazine, she finds him attractive, enigmatic and intimidating. Convinced their meeting went badly, she tries to put Grey out of her mind -- until he happens to turn up at the out-of-town hardware store where she works part-time.",
+    "image" : "fiftyshades.jpg",
+    "isbn" : "9780345803481"
+}
+
+/* 8 */
+{
+    "title" : "The Girl With the Dragon Tatoo",
+    "author" : "Stieg Larsson",
+    "publisher" : "Quercus",
+    "genre" : ["Crime", "Thriller", "Adventure"],
+    "description" : " Forty years ago, Harriet Vanger disappeared from a family gathering on the island owned and inhabited by the powerful Vanger clan. Her body was never found and her beloved uncle is convinced she was murdered and that the killer is a member of his own tightly knit but dysfunctional family. He employs disgraced investigative journalist Mickael Blomkvist and the tattooed and troubled yet resourceful computer hacker Lisbeth Salander to investigate.",
+    "image" : "girltatoo.jpg",
+    "isbn" : "9780307454546"
+}
+
+/* 9 */
+{
+    "title" : "One Day",
+    "author" : "David Nicholls",
+    "publisher" : "Hodder & Stoughton",
+    "genre" : ["General and Literary Fiction"],
+    "description" : "Over twenty years, snapshots of an unlikely relationship are revealed on the same day--July 15th--of each year. Dex Mayhew and Em Morley face squabbles and fights, hopes and missed opportunities, laughter and tears. And as the true meaning of this one crucial day is revealed, they must come to grips with the nature of love and life itself. Soon to be a major motion picture from Focus Features/ Random House Films.",
+    "image" : "oneday.jpg",
+    "isbn" : "9780307474711"
+}
+
+/* 10 */
+{
+    "title" : "The Kite Runner",
+    "author" : "Khaled Hosseini",
+    "publisher" : "Bloomsbury",
+    "genre" : ["General and Literary Fiction"],
+    "description" : "An epic tale of fathers and sons, of friendship and betrayal, that takes us from Afghanistan in the final days of the monarchy to the atrocities of the present day. The unforgettable, heartbreaking story of the unlikely friendship between a wealthy Afghan youth and the son of his father's servant, The Kite Runner is a beautifully crafted novel set in a country that is in the process of being destroyed. It is about the power of reading, the price of betrayal, and the possibility of redemption. It is also about the power of fathers over sons: their love, their sacrifices, and their lies.",
+    "image" : "kiterunner.jpg",
+    "isbn" : "9781594631931"
+}
+
+/* 11 */
+{
+    "title" : "The Hunger Games",
+    "author" : "Suzanne Collins",
+    "publisher" : "Scholastic",
+    "genre" : ["Young Adult Fiction"],
+    "description" : "In a future North America, where the rulers of Panem maintain control through an annual televised survival competition pitting young people from each of the twelve districts against one another, sixteen-year-old Katniss's skills are put to the test when she voluntarily takes her younger sister's place",
+    "image" : "hungergames.jpg",
+    "isbn" : "9780545425117"
+}
+
+/* 12 */
+{
+    "title" : "The Book Thief",
+    "author" : "Markus Zusak",
+    "publisher" : "Transworld",
+    "description" : "Trying to make sense of the horrors of World War II, Death relates the story of Liesel--a young German girl whose book-stealing and story-telling talents help sustain her family and the Jewish man they are hiding, as well as their neighbors.",
+    "genre" : ["General and Literary Fiction"],
+    "image" : "bookthief.jpg",
+    "isbn" : "9781101934180"
+}
+
+
+
+// TODO: fill the rest of these other 12 books out later --------------------------------------------------------------
+
+
+/* 13 */
+{
+    "title" : "The Da Vinci Code",
+    "author" : "Dan Brown",
+    "publisher" : "Transworld",
+    "genre" : ["Crime", "Thriller", "Adventure"],
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 14 */
+{
+    "title" : "Harry Potter and the Deathly Hallows",
+    "author" : "J.K Rowling",
+    "publisher" : "Bloomsbury",
+    "genre" : "Children's Fiction",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 15 */
+{
+    "title" : "Twilight",
+    "author" : "Stephenie Meyer",
+    "publisher" : "Little, Brown Book",
+    "genre" : "Young Adult Fiction",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 16 */
+{
+    "title" : "The Very Hungry Caterpiller",
+    "author" : "Eric Carle",
+    "publisher" : "Penguin",
+    "genre" : "Picture Books",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 17 */
+{
+    "title" : "Life of Pi",
+    "author" : "Yann Martel",
+    "publisher" : "Canongate",
+    "genre" : "General and Literary Fiction",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 18 */
+{
+    "title" : "test",
+    "author" : "test",
+    "publisher" : "test",
+    "description" : "test",
+    "genre" : "test",
+    "image" : "test",
+    "isbn" : "test"
+}
+
+/* 19 */
+{
+    "title" : "The Da Vinci Code",
+    "author" : "Dan Brown",
+    "publisher" : "Transworld",
+    "genre" : ["Crime", "Thriller", "Adventure"],
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 20 */
+{
+    "title" : "Harry Potter and the Deathly Hallows",
+    "author" : "J.K Rowling",
+    "publisher" : "Bloomsbury",
+    "genre" : "Children's Fiction",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 21 */
+{
+    "title" : "Twilight",
+    "author" : "Stephenie Meyer",
+    "publisher" : "Little, Brown Book",
+    "genre" : "Young Adult Fiction",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 22 */
+{
+    "title" : "The Very Hungry Caterpiller",
+    "author" : "Eric Carle",
+    "publisher" : "Penguin",
+    "genre" : "Picture Books",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 23 */
+{
+    "title" : "Life of Pi",
+    "author" : "Yann Martel",
+    "publisher" : "Canongate",
+    "genre" : "General and Literary Fiction",
+    "description" : "",
+    "image" : "",
+    "isbn" : ""
+}
+
+/* 24 */
+{
+    "title" : "test",
+    "author" : "test",
+    "publisher" : "test",
+    "description" : "test",
+    "genre" : "test",
+    "image" : "test",
+    "isbn" : "test"
+}

@@ -6,7 +6,7 @@ var Book = new mongoose.Schema({
     author: {type: String, required: true},
     publisher: String,
     description: String,
-    genre: String, // Genre might be multi-valued??
+    genre: [ String ],
     image: String,
     isbn: String
     },

@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+/*
+
     // $(".list-wrapper").append()
     var perPage = 1; // we want to get 9 things per page in our pagination
     var pageCount = Math.ceil($(".myContent").length / perPage);
@@ -25,4 +27,5 @@ $(document).ready(function() {
 	    $(this).addClass("current");
 	    showPage(parseInt($(this).text())) 
 	});
+*/
 });
