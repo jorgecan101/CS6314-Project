@@ -32,9 +32,7 @@ a {
   text-decoration: none;
 }
 
-
-/* TODO: Maybe don't make this effect entire project, as some links may become invisible when hovering in certain places" */
-a:hover {
+.text-fix a:hover {
   color: white;
 }
 
@@ -45,5 +43,10 @@ a:hover {
 }
 
 .search-bar {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+#paging li {
   display: inline-block;
 }

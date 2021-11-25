@@ -6,6 +6,7 @@ var Account = new mongoose.Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     username: {type:String, required:true, unique:true},
+    isAdmin: {type:Boolean, default:true},
     password: String
 });
 //plugin for passport-local-mongoose

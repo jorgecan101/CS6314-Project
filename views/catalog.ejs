@@ -1,71 +1,55 @@
 <%- include ('partials/header') %>
 
-<div class="search-bar">
-  <form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
+
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">Catalog</h1>
+  </div>
+  <h2>Search</h2>
+  <div class="search-bar">
+    <form>
+      <input type="text" id="title" name="title" placeholder="Enter title" style="margin-top: 10px;"><br>
+      <select name="genre" id="genre">
+        <option value="all">All</option>
+        <option value="General and Literary Fiction">General and Literary Fiction</option>
+        <option value="Picture Books">Picture Books</option>
+        <option value="Young Adult Fiction">Young Adult Fiction</option>
+      </select>
+      <input type="submit" value="Search">
+    </form> 
+  </div>
+  <a href="/catalog">Reset filters</a>
+  <% if(user && user.isAdmin) { %>
+    <a class="btn btn-primary btn-lg" href="/catalog/new" role="button">
+      Add new book</a>
+  <%} %>
 </div>
 
 <div class="container">
-  <% results.forEach(function(books) { %>
-    <div class="sm-col-3">
-      text
-      <!-- <img src="images/<%= book.image %>" style="width:200px; height:200px;" class="img-thumbnail" alt="img alt"/> -->
-
-    </div>
-<% }); %>
-
-
+  <div class="row">
+    <% books.forEach(function(book) { %>
+      <script>
+        
+      </script>
+      
+      <div class="col-sm-3">
+        <div class="card myContent">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><%= book.title %></h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="book/<%= book._id %>" class="btn btn-primary">Book details</a>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
 </div>
 
-
-<!--
-<div class="jumbotron">
-    <h1 class="display-4">Book Catalog</h1>
-    <p class="lead">This is the list of books</p>
-    <a class="btn btn-primary btn-md" href="/books/new" role="button">Add new video</a>
-    <form action="videos" class="form-group" method="GET">
-      <br>
-      <input name="search" type="text" placeholder="Enter Title.." />
-      <br>
-      <label for="videos">Choose a genre:</label>
-  
-      <select
-        name="genre"
-        class="form-group"
-        id="videos"
-        onchange="searchGenre()"
-      >
-        <option value="choose">Choose</option>
-        <option value="scifi">SciFi</option>
-        <option value="fantasy">Fantasy</option>
-        <option value="drama">Drama</option>
-        <option value="animation">Animation</option>
-      </select>
-  
-      <button type="submit" class="btn btn-primary btn-md">Search</button>
-    </form>
+<div class="container">
+  <div id="pagination-container">
+    <ul id="paging"></ul>
   </div>
-  
-  <div class="container">
-    <div class="row">
-      <% books.forEach(function(book){ %>
-      <div class="sm-col-3">
-
-
--->
-
-        <!--<img src="images/<%= video.image %>" style="width: 200px; height: 200px;" class="img-thumbnail"/>-->
-        <!--
-        <div class="caption"><a href="books/<%= book._id %>"><%= book.title %></a></div>
-      </div>
-  
-      <% }); %>
-      
-    </div>
-  </div>
-        -->
-
+</div>
 
 <%- include ('partials/footer') %>

@@ -1,4 +1,4 @@
-/*
+ /*
 - Check	the	new	username or	email address if it’s already registered to the	system	using AJAX.
 - Form	validation:	Check	if	all	mandatory	fields	are	filled	out.	
 - Check	if	password	is	strong	enough.	Define	the	rules	of	having	a	

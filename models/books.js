@@ -5,10 +5,11 @@ var Book = new mongoose.Schema({
     title: {type: String, required:true},
     author: {type: String, required: true},
     publisher: String,
-    // description: String,
+    description: String,
     genre: String, // Genre might be multi-valued??
-    // image: String},
+    image: String,
+    isbn: String
     },
     { collection : 'books' });
 
-//module.exports = mongoose.model('Book', Book);
+module.exports = mongoose.model('Book', Book);
