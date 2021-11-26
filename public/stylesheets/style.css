@@ -50,3 +50,13 @@ a {
 #paging li {
   display: inline-block;
 }
+
+.fa {
+  padding-top: 20px;
+  padding-right: 40px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  color: #1d4b6d;
+}

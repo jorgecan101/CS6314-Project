@@ -2,13 +2,14 @@ var mongoose = require('mongoose');
 
 // Create the Schema for the books
 var Book = new mongoose.Schema({
-    title: {type: String, required:true},
+    title: {type: String, required: true},
     author: {type: String, required: true},
     publisher: String,
     description: String,
     genre: [ String ],
     image: String,
-    isbn: String
+    isbn: String,
+    isDeleted: false // False intially when creating a new book
     },
     { collection : 'books' });
 

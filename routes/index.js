@@ -103,65 +103,103 @@ router.get('/logout', function(req, res) {
   res.redirect('/home');
 });
 
+
+// TODO: Get paging to work correctly when filters are applied to them
+
 /* GET catalog page */
 router.get('/catalog', function(req, res) {
+  var page = parseInt(req.query.page) || 1;
+  var result = [];
+  var length = 0;
   var collection = db.get("books");
   var usertitle = req.query.title;
   var usergenre = req.query.genre;
+  console.log("uTitle: " + usertitle + " uGenre: " + usergenre);
   var regTitle = new RegExp(usertitle, 'i');
   var regGenre = new RegExp(usergenre, 'i');
   // No filters applied
   if ((!usertitle && !usergenre) || (usertitle == "" && usergenre == "all")) {
     collection.find({}, function (err, books) {
       if (err) throw err;
-      res.render("catalog", {books, user: req.user});
+      result = [];
+      length = books.length;
+      for (var i = 8 * (page - 1); i < 8 * page; i++) {
+        if (i < length) {
+          result.push(books[i]);
+        }
+      }
+      var maxPage = Math.ceil(length / 8);
+      res.render("catalog", {books: result, 
+        currentPage : page,
+        numPages : maxPage,
+        numRes : books.length,
+        user: req.user});
     }); 
   }
   // Filter only based on title
   else if (usertitle != "" && usergenre == "all") {
     collection.find({title : regTitle}, function(err, books) { 
       if (err) throw err;
-       res.render("catalog", {books, user: req.user});
+      result = [];
+      length = books.length;
+      for (var i = 8 * (page - 1); i < 8 * page; i++) {
+        if (i < length) {
+          result.push(books[i]);
+        }
+      }
+      var maxPage = Math.ceil(length / 8);
+      res.render("catalog", {books: result, 
+        currentPage : page,
+        numPages : maxPage,
+        numRes : books.length,
+        user: req.user});
     });
   }
   // Filter based on both title and genre
   else if (usertitle != "" && usergenre != "all") {
     collection.find({title : regTitle, genre: regGenre}, function(err, books) { 
       if (err) throw err;
-       res.render("catalog", {books, user: req.user});
+      result = [];
+      length = books.length;
+      for (var i = 8 * (page - 1); i < 8 * page; i++) {
+        if (i < length) {
+          result.push(books[i]);
+        }
+      }
+      var maxPage = Math.ceil(length / 8);
+      res.render("catalog", {books: result, 
+        currentPage : page,
+        numPages : maxPage,
+        numRes : books.length,
+        user: req.user});
     });
   }
   // Filter based on only genre
   else if (usertitle == "" && usergenre != "all") {
     collection.find({genre: regGenre}, function(err, books) { 
       if (err) throw err;
-       res.render("catalog", {books, user: req.user});
+      result = [];
+      length = books.length;
+      for (var i = 8 * (page - 1); i < 8 * page; i++) {
+        if (i < length) {
+          result.push(books[i]);
+        }
+      }
+      var maxPage = Math.ceil(length / 8);
+      console.log("max pages: " + maxPage + " currentPage: " + page + " numberRes: " + books.length);
+      res.render("catalog", {books: result, 
+        currentPage : page,
+        numPages : maxPage,
+        numRes : books.length,
+        user: req.user});
     });
   }
 });
 
-/* GET pages
-router.get('/catalog/:page', function(req, res, next) {
-  var collection = db.get("books");
-  var perPage = 9
-  var page = req.params.page || 1
-
-  collection.find({}).skip((perPage * page) - perPage).limit(perPage).exec(function(err, products) {
-          collection.count().exec(function(err, count) {
-              if (err) return next(err)
-              res.render('catalog', {
-                  books: books,
-                  current: page,
-                  pages: Math.ceil(count / perPage)
-              })
-          })
-      })
-})
-*/
-
 /* GET book/id for getting to page about specific book */
 router.get('/book/:id', function(req, res) {
-  Book.findOne({_id : req.params.id}, function(err, book) {
+  var collection = db.get("books");
+  collection.findOne({_id : req.params.id}, function(err, book) {
     if (err) throw err;
     res.render('show', {book : book, user: req.user});
   });
@@ -236,8 +274,9 @@ router.get('/cart', function(req, res) {
 
 
 
-/*ADMIN routes*/
-//GET show edit form 
+/* ADMIN routes */
+
+// GET show edit form 
 router.get('/book/:id/edit', function(req, res){
   var collection = db.get("books");
   collection.findOne({_id: req.params.id}, function(err, book){
@@ -246,7 +285,7 @@ router.get('/book/:id/edit', function(req, res){
   });
 });
 
-//update an existing book
+// PUT update an existing book
 router.patch('/book/:id', function(req, res){
   var collection = db.get("books");
   collection.update({_id: req.params.id},
@@ -266,7 +305,7 @@ router.patch('/book/:id', function(req, res){
       });
 });
 
-//show add new form
+// GET show add new form
 router.get('/catalog/new', function(req, res) {
   res.render('admin/new', {user: req.user});
 });
@@ -281,11 +320,26 @@ router.post('/catalog', function(req, res){
       description: req.body.desc,
       genre: req.body.genre,
       image: req.body.image,
-      isbn: req.body.isbn
+      isbn: req.body.isbn,
+      isDeleted: false
   }, function(err, book){
       if(err) console.log(err);
       res.redirect('/catalog');
   });
+});
+
+// soft DELETE route (so actually a PUT request)
+router.patch('/book/:id', function(req, res){
+  var collection = db.get("books");
+  collection.update({_id: req.params.id},
+      { $set: {
+          isDeleted : true
+  
+      }}, function(err, book){
+          if(err) console.log(err);
+          //if "delete" is successful, redirect to /books
+          res.redirect('/catalog');
+      });
 });
 
 module.exports = router;

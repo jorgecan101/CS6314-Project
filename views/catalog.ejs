@@ -55,7 +55,7 @@
           <img src="../images/<%=books[i].image %>" class="card-img-top" alt="<%= books[i].title %>">
           <div class="card-body">
             <h5 class="card-title"><%= books[i].title %></h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">Author: <%= books[i].author %></p>
             <a href="book/<%= books[i]._id %>" class="btn btn-primary">Book details</a>
           </div>
         </div>
@@ -64,11 +64,22 @@
   </div>
 </div>
 
-<!--
-  <div class="container">
-  <div id="pagination-container">
-    <ul id="paging"></ul>
-  </div>
+
+<!-- What i was editing was trying to get it so it has the filters in the page query as well -->
+
+
+<div class="container" id="paging" style="text-align: center; margin: auto">
+	<% if (currentPage == 1 && numPages>1) {%>
+    <%= parseInt(currentPage)  %>
+    <a href="/catalog?page=<%= parseInt(currentPage) + 1 %>"><i class="fas fa-chevron-right"></i></a>
+	<%} else if(currentPage < numPages) { %>
+    <a href="/catalog?page=<%= parseInt(currentPage) - 1 %>"><i class="fas fa-chevron-left"></i></a>
+    <%= parseInt(currentPage)  %>
+	  <a href="/catalog?page=<%= parseInt(currentPage) + 1 %>"><i class="fas fa-chevron-right"></i></a>
+	<%} else if(currentPage == numPages && numPages > 1) { %>
+    <a href="/catalog?page=<%= parseInt(currentPage) - 1 %>"><i class="fas fa-chevron-left"></i></a>
+    <%= parseInt(currentPage)  %>
+    <% } %>
 </div>
--->
+
 <%- include ('partials/footer') %>
