@@ -15,7 +15,8 @@ var passport = require('passport');
 var Account = require('../models/account');
 var Book = require('../models/books');
 //Cart Schema
-var Cart = require("../models/cart");
+// var Cart = require("../models/cart");
+var Wishlist = require("../models/wishlist");
 //var accountID = req.Account._id;
 
 var methodOverride = require('method-override');
@@ -107,13 +108,14 @@ router.get('/logout', function(req, res) {
 // TODO: Get paging to work correctly when filters are applied to them
 
 /* GET catalog page */
-router.get('/catalog', function(req, res) {
+router.get('/catalog', async function(req, res) {
   var page = parseInt(req.query.page) || 1;
   var result = [];
   var length = 0;
   var collection = db.get("books");
   var usertitle = req.query.title;
   var usergenre = req.query.genre;
+  //persistantTitle.push(usertitle[0]);
   console.log("uTitle: " + usertitle + " uGenre: " + usergenre);
   var regTitle = new RegExp(usertitle, 'i');
   var regGenre = new RegExp(usergenre, 'i');
@@ -205,75 +207,6 @@ router.get('/book/:id', function(req, res) {
   });
 });
 
-/* POST book/id , for adding book to users cart */
-router.post('/book/:id', function(req, res) {
-  //TODO: Not sure where the right endpoint is for posting 
-  const addToCart = new Cart({ 
-  
-    // This is completly wrong!!!!!  
-    
-    accountId : req.body._id,
-    cartContents : req.body.book,
-    date : req.body.date
-  }, function(err, book) {
-    if (err) throw err;
-    res.redirect('/catalog');
-  });
-});
-
-/* cart functionality */
-
-//add to cart
-router.post("/:id/cart", function(req, res){
-
-  var books = db.get("books");
-  var cart = db.get("cart");
-
-  books.findOne({_id: req.body.like }, function(err, book){
-    if (err) throw err;
-    var url = "/cart/" + req.body.like;
-
-    cart.collection.findOne(
-      {
-        userid: req.user._id, 
-        cartContents: book,
-      },
-      function(err, result){
-        if (err) throw err;
-        if(result){
-          console.log("duplicate book spotted");
-          res.redirect(url);
-        }else{
-          cart.insert(
-            {
-              cartContents: book, 
-              
-
-            }
-          )
-        }
-      }
-    )
-  })
-
-  res.render('cart');
-  
-  
-
-  
-
-});
-router.get('/cart', function(req, res) {
-  Cart.find({}, function(err, cartbook){
-    if (err) throw err;
-    res.render('cart', {cartbook});
-  });
-});
-
-
-
-
-
 /* ADMIN routes */
 
 // GET show edit form 
@@ -341,6 +274,75 @@ router.patch('/book/:id', function(req, res){
           res.redirect('/catalog');
       });
 });
+
+/* Wishlist functionalities*/
+
+/* GET wishlist for particaular user */
+router.get('/:id/wishlist', function(req, res) {
+  var wl_collection = db.get("wishlists");
+  Account.findById(req.params.id, function(err, user) {
+
+    wl_collection.find({username : user.username}, function(err, wls) {
+      res.render('wishlist', {user: user, wls : wls});
+    })
+  });
+});
+
+/* POST adding to partiular users wishlist */
+router.post("/:id/wishlist", function(req, res){
+
+  var books_collection = db.get("books");
+  var wl_collection = db.get("wishlists");
+
+  books_collection.findOne({_id: req.body.wish }, function(err, book){
+    if (err) throw err;
+    // var url = "/home/" + req.body.like;
+    // var url = "/home";
+
+    wl_collection.findOne(
+      {
+        userid: req.user._id, 
+        bookObject: book,
+      },
+      function(err, result){
+        if (err) throw err;
+        if(result){
+          console.log("duplicate book spotted");
+          res.redirect('/home');
+        }else{
+          wl_collection.insert(
+            {
+              bookObject: book, 
+              bookid: book._id,
+              bookname : book.title, 
+              userid: req.user._id, 
+              username: req.user.username,
+            }, 
+            function (err, wishlist){
+              if (err) throw err;
+              res.redirect('/home');
+            }
+          );
+        }
+      }
+    );
+  });
+});
+
+/* Deleting a book from the wishlist */
+router.delete("/:id/wishlist", function(req, res){
+  var wl_collection = db.get("wishlists");
+  var url = "/" + req.params.id + "/wishlist";
+  console.log("username: " + req.body.wlusername + " || bookname: " + req.body.wlbookname);
+  wl_collection.remove(
+    { username: req.body.wlusername, bookname: req.body.wlbookname },
+    function(err, wl){
+      if (err) throw err;
+      res.redirect(url);
+    }
+  );
+});
+
 
 module.exports = router;
 

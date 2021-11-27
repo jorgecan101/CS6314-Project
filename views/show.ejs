@@ -21,8 +21,9 @@
     -->
     <!--Need to test this after login is working-->
     <% if(user && !user.isAdmin) {%>
-        <form action="/book/<%= book._id %>" method="POST">
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
+        <form action="/<%= user._id %>/wishlist" method="POST">
+            <input name="wish" id="wish" value="<%= book._id %>" type="hidden" /><br>
+            <button type="submit" class="btn btn-primary">Add to Wishlist </button>
         </form>
     <%}%>
 
@@ -34,7 +35,7 @@
         <!-- TODO: Get this to soft-delete (so we would have to check the db for isDelete to be set to true) -->
         <form action="/book/<%= book._id %>?_method=PUT" method="POST">
     
-        <button type="submit" class="btn btn-danger">Delete Book</button>
+            <button type="submit" class="btn btn-danger">Delete Book</button>
     
         </form>
     <%}%>

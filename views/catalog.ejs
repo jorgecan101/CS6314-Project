@@ -7,7 +7,7 @@
   </div>
   <h2>Search</h2>
   <div class="search-bar">
-    <form>
+    <form action="/catalog" method="GET">
       <input type="text" id="title" name="title" placeholder="Enter title" style="margin-top: 10px;"><br>
       <select name="genre" id="genre">
         <option value="all">All</option>
@@ -29,24 +29,7 @@
       Add new book</a>
   <%} %>
 </div>
-<!--
-<div class="container">
-  <div class="row">
-    <% books.forEach(function(book) { %>
-      <div class="col-sm-3">
-        <div class="card myContent">
-          <img src="../images/<%=book.image %>" class="card-img-top" alt="<%= book.title %>">
-          <div class="card-body">
-            <h5 class="card-title"><%= book.title %></h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="book/<%= book._id %>" class="btn btn-primary">Book details</a>
-          </div>
-        </div>
-      </div>
-    <% }); %>
-  </div>
-</div>
--->
+
 <div class="container">
   <div class="row">
     <% for (var i = 0; i < books.length; i++) { %>
@@ -64,10 +47,8 @@
   </div>
 </div>
 
-
 <!-- What i was editing was trying to get it so it has the filters in the page query as well -->
-
-
+<br>
 <div class="container" id="paging" style="text-align: center; margin: auto">
 	<% if (currentPage == 1 && numPages>1) {%>
     <%= parseInt(currentPage)  %>
@@ -81,5 +62,9 @@
     <%= parseInt(currentPage)  %>
     <% } %>
 </div>
+
+<br>
+<br>
+<br>
 
 <%- include ('partials/footer') %>

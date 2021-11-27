@@ -1,0 +1,36 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+    <h1>Hello <%= user.username%>!</h1>
+    <h2>Your wishlist:</h2>
+    <hr>
+
+    <div class="container">
+        <div class="row">
+            <% wls.forEach(function(wl){ %>
+                <div class="col-sm-3">
+                    <div class = "card myContent">
+                        <img src="../images/<%= wl.bookObject.image %>" class="card-img-top" alt="<%= wl.bookObject.title %>">
+                        <!-- <div class="col-md-8"> -->
+                            <div class="card-body">
+                                <!-- <div class="col-md-6"> -->
+                                    <h5 class="card-title"><%= wl.bookObject.title %></h5>
+                                    <p class="card-text">Author: <%= wl.bookObject.author %></p>
+                                <!-- </div> -->
+                                <!-- <div class="col-md-6"> -->
+                                    <form action="/<%= user._id%>/wishlist?_method=DELETE" method="POST">
+                                        <input name="wlbookname" id="wlbookname" value="<%= wl.bookObject.title %>" type="hidden" />
+                                        <input name="wlusername" id="wlusername" value="<%= user.username %>" type="hidden" />
+                                        <button type="submit" class="btn btn-danger">Remove from Wishlist</button>
+                                    </form>
+                                <!-- </div> -->
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include ('partials/footer') %>
