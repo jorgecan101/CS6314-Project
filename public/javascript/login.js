@@ -27,6 +27,9 @@ $(document).ready(function() {
                    if(data.status === "Success"){
                         window.location = data.redirect;
                    }
+                   if(data.status === "Failure"){
+                        $('#submit').after('<span class="error">' + data.message + '</span>');
+                   }
                 },
                 error: function(){
                     

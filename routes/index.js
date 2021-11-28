@@ -18,8 +18,13 @@ var Book = require('../models/books');
 // var Cart = require("../models/cart");
 var Wishlist = require("../models/wishlist");
 //var accountID = req.Account._id;
+var formidable = require('formidable');
+var fs = require('fs');
+var path = require('path');
 
 var methodOverride = require('method-override');
+const { on } = require('../models/account');
+const { dirname } = require('path');
 // override with POST having ?_method=DELETE or ?_method=PATCH
 router.use(methodOverride('_method'));
 
@@ -45,6 +50,7 @@ router.post('/login', function(req, res, next) {
       return next(err);
     }
     if(!user){
+      res.json({status: "Failure", message: "Username or password is incorrect"});
       return console.log(info);
     }
     req.login(user, loginErr => {
@@ -86,14 +92,22 @@ router.post('/register', function(req,res) {
       res.json({status: "Failure", message: "Email already existed"});
     }
     else{
-      Account.register(account, req.body.password, function(err, account){
-        if(err) {
-          return res.render('register', {account : account});
+      Account.findOne({username: req.body.username}, function(err, result){
+        if(err) console.log(err);
+        if(result){
+          res.json({status: "Failure", message: "Username already existed"});
         }
-        passport.authenticate('local')(req,res, function() { 
-          res.json({status: "Success", redirect: '/login'});
-        });
-      });
+        else{
+          Account.register(account, req.body.password, function(err, account){
+            if(err) {
+              return res.render('register', {account : account});
+            }
+            passport.authenticate('local')(req,res, function() { 
+              res.json({status: "Success", redirect: '/login'});
+            });
+          });
+        }
+      })
     }
   });
 });
@@ -219,23 +233,42 @@ router.get('/book/:id/edit', function(req, res){
 });
 
 // PUT update an existing book
-router.patch('/book/:id', function(req, res){
+router.put('/book/:id', function(req, res){
   var collection = db.get("books");
-  collection.update({_id: req.params.id},
-      { $set: {
-          title: req.body.title,
-          author: req.body.author,
-          publisher: req.body.publisher,
-          description: req.body.desc,
-          genre: req.body.genre,
-          image: req.body.image,
-          isbn: req.body.isbn
-  
-      }}, function(err, book){
-          if(err) console.log(err);
-          //if updated is successful, redirect to /books
-          res.redirect('/catalog');
+  var form = new formidable.IncomingForm();
+  var image = "";
+  form.parse(req, function(err, fields, files){
+    //console.log(files); 
+    collection.findOne({_id: req.params.id }, function(err, book){
+      if(err) throw err;
+      if(files.image.originalFilename === ""){
+        image = book.image;
+      }
+      else{
+        var oldpath = files.image.filepath;
+        var newpath = 'public/images/' + files.image.originalFilename;
+        var rawData = fs.readFileSync(oldpath);
+        fs.writeFile(newpath, rawData, function (err) {
+          if (err) throw err;
+        });
+        image = files.image.originalFilename;
+      }
+      collection.findOneAndUpdate({_id: req.params.id}, {
+        $set: {
+          title: fields.title,
+          author: fields.author,
+          publisher: fields.publisher,
+          description: fields.desc,
+          genre: fields.genre,
+          image: image,
+          isbn: fields.isbn,
+        }
+      }, function(err, book){
+        if(err) console.log(err);
+        res.redirect('/catalog');
       });
+    });
+  })
 });
 
 // GET show add new form
@@ -246,28 +279,50 @@ router.get('/catalog/new', function(req, res) {
 // POST create a book
 router.post('/catalog', function(req, res){
   var collection = db.get("books");
-  collection.insert({
-      title: req.body.title,
-      author: req.body.author,
-      publisher: req.body.publisher,
-      description: req.body.desc,
-      genre: req.body.genre,
-      image: req.body.image,
-      isbn: req.body.isbn,
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files){
+    //console.log(files);
+    var oldpath = files.image.filepath;
+		var newpath = 'public/images/' + files.image.originalFilename;
+		var rawData = fs.readFileSync(oldpath);
+    fs.writeFile(newpath, rawData, function (err) {
+		  if (err) throw err;
+		}); 
+    collection.insert({
+      title: fields.title,
+      author: fields.author,
+      publisher: fields.publisher,
+      description: fields.desc,
+      genre: fields.genre,
+      image: files.image.originalFilename,
+      isbn: fields.isbn,
       isDeleted: false
   }, function(err, book){
       if(err) console.log(err);
       res.redirect('/catalog');
   });
+  })
 });
 
 // soft DELETE route (so actually a PUT request)
-router.patch('/book/:id', function(req, res){
+router.post('/book/:id/delete', function(req, res){
   var collection = db.get("books");
-  collection.update({_id: req.params.id},
+  collection.findOneAndUpdate({_id: req.params.id},
       { $set: {
-          isDeleted : true
-  
+          isDeleted : true,
+      }}, function(err, book){
+          if(err) console.log(err);
+          //if "delete" is successful, redirect to /books
+          res.redirect('/catalog');
+      });
+});
+
+//recover a book
+router.post('/book/:id/recover', function(req, res){
+  var collection = db.get("books");
+  collection.findOneAndUpdate({_id: req.params.id},
+      { $set: {
+          isDeleted : false,
       }}, function(err, book){
           if(err) console.log(err);
           //if "delete" is successful, redirect to /books

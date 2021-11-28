@@ -9,12 +9,14 @@ $(document).ready(function() {
     var emailCheck = true;
     var firstCheck = true;
     var lastCheck = true;
+    var usernameCheck = true;
     var passwordCheck = true;
     var confirmCheck = true;
 
     var email = "";
     var first = "";
     var last = "";
+    var username = "";
     var password = "";
     var confirm = "";
     $('#email').blur(function(){
@@ -51,6 +53,17 @@ $(document).ready(function() {
             lastCheck = true;
         }
     });
+    $('#username').blur(function(){
+        username = $('#username').val();
+        $(".error").remove();
+        if(username == ""){
+            $('#username').after('<span class="error">Username is empty</span>');
+            usernameCheck = false;
+        }
+        else{
+            usernameCheck = true;
+        }
+    });
     $('#password').blur(function(){
         password = $('#password').val();
         var passErr = validate_password(password);
@@ -79,7 +92,7 @@ $(document).ready(function() {
         e.preventDefault();
         $(".error").remove();
         //console.log(emailCheck + firstcheck + lastCheck + pass)
-        if(emailCheck != true || firstCheck != true || lastCheck != true || passwordCheck != true || confirmCheck != true){
+        if(emailCheck != true || firstCheck != true || lastCheck != true || passwordCheck != true || confirmCheck != true || usernameCheck != true){
             $('#submit').after('<span class="error">Please complete all fields correctly</span>');
         }
         else{

@@ -9,7 +9,7 @@ var Book = new mongoose.Schema({
     genre: [ String ],
     image: String,
     isbn: String,
-    isDeleted: false // False intially when creating a new book
+    isDeleted: {type:Boolean, default:false} // False intially when creating a new book
     },
     { collection : 'books' });
 

@@ -4,7 +4,7 @@
 <h1> Edit Book </h1>
 
 
-<form action="/book/<%= book._id %>?_method=PATCH" method="POST" >
+<form action="/book/<%= book._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 
 <div class="form-group">
 	<input type="text" name="title" class="form-control" value="<%= book.title %>">
@@ -22,7 +22,8 @@
 	<input type="text" name="genre" class="form-control" value="<%= book.genre %>">
 </div>
 <div class="form-group">
-	<input type="text" name="image" class="form-control" value="<%= book.image %>"/>
+	<input type="file" id="image" name="image" class="custom-file-input"/>
+	<label class="custom-file-label" for="image"><%=book.image%></label>
 </div>
 <div class="form-group">
 	<input type="text" name="isbn" class="form-control" value="<%= book.isbn %>">

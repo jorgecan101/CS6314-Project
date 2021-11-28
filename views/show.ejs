@@ -32,12 +32,21 @@
         <a class="btn btn-warning" href="/book/<%= book._id %>/edit" role="button">
         Edit Book</a>
     
-        <!-- TODO: Get this to soft-delete (so we would have to check the db for isDelete to be set to true) -->
-        <form action="/book/<%= book._id %>?_method=PUT" method="POST">
+        <% if(!book.isDeleted) {%>
+            <!-- TODO: Get this to soft-delete (so we would have to check the db for isDelete to be set to true) -->
+            <form action="/book/<%= book._id %>/delete" method="POST">
+        
+                <button type="submit" class="btn btn-danger">Delete Book</button>
+        
+            </form>
+        <%}%>
+        <% if(book.isDeleted) {%>
+            <form action="/book/<%= book._id %>/recover" method="POST">
     
-            <button type="submit" class="btn btn-danger">Delete Book</button>
-    
-        </form>
+                <button type="submit" class="btn btn-danger">Recover Book</button>
+        
+            </form>
+        <%}%>
     <%}%>
 
     <p>
