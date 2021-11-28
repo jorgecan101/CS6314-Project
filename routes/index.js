@@ -13,10 +13,10 @@ var db = monk("localhost:27017/library");
 
 var passport = require('passport');
 var Account = require('../models/account');
-var Book = require('../models/books');
+// var Book = require('../models/books');
 //Cart Schema
 // var Cart = require("../models/cart");
-var Wishlist = require("../models/wishlist");
+//var Wishlist = require("../models/wishlist");
 //var accountID = req.Account._id;
 var formidable = require('formidable');
 var fs = require('fs');
@@ -118,10 +118,8 @@ router.get('/logout', function(req, res) {
   res.redirect('/home');
 });
 
-
-// TODO: Get paging to work correctly when filters are applied to them
-
 /* GET catalog page */
+
 router.get('/catalog', async function(req, res) {
   var page = parseInt(req.query.page) || 1;
   var result = [];
@@ -135,80 +133,162 @@ router.get('/catalog', async function(req, res) {
   var regGenre = new RegExp(usergenre, 'i');
   // No filters applied
   if ((!usertitle && !usergenre) || (usertitle == "" && usergenre == "all")) {
-    collection.find({}, function (err, books) {
-      if (err) throw err;
-      result = [];
-      length = books.length;
-      for (var i = 8 * (page - 1); i < 8 * page; i++) {
-        if (i < length) {
-          result.push(books[i]);
+    //if we are the admin, we should be able to see all books
+    if (req.user && req.user.isAdmin) {
+      collection.find({}, function (err, books) {
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
         }
-      }
-      var maxPage = Math.ceil(length / 8);
-      res.render("catalog", {books: result, 
-        currentPage : page,
-        numPages : maxPage,
-        numRes : books.length,
-        user: req.user});
-    }); 
+        var maxPage = Math.ceil(length / 8);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      }); 
+    }
+    else {
+      collection.find({ isDeleted : false }, function (err, books) {
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
+        }
+        var maxPage = Math.ceil(length / 8);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      });
+    }
   }
   // Filter only based on title
   else if (usertitle != "" && usergenre == "all") {
-    collection.find({title : regTitle}, function(err, books) { 
-      if (err) throw err;
-      result = [];
-      length = books.length;
-      for (var i = 8 * (page - 1); i < 8 * page; i++) {
-        if (i < length) {
-          result.push(books[i]);
+    if (req.user && req.user.isAdmin) {
+      collection.find({title : regTitle}, function(err, books) { 
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
         }
-      }
-      var maxPage = Math.ceil(length / 8);
-      res.render("catalog", {books: result, 
-        currentPage : page,
-        numPages : maxPage,
-        numRes : books.length,
-        user: req.user});
-    });
+        var maxPage = Math.ceil(length / 8);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      });
+    }
+    else {
+      collection.find({title : regTitle, isDeleted : false}, function(err, books) { 
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
+        }
+        var maxPage = Math.ceil(length / 8);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      });
+    }
   }
   // Filter based on both title and genre
   else if (usertitle != "" && usergenre != "all") {
-    collection.find({title : regTitle, genre: regGenre}, function(err, books) { 
-      if (err) throw err;
-      result = [];
-      length = books.length;
-      for (var i = 8 * (page - 1); i < 8 * page; i++) {
-        if (i < length) {
-          result.push(books[i]);
+    if (req.user && req.user.isAdmin) {
+      collection.find({title : regTitle, genre: regGenre}, function(err, books) { 
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
         }
-      }
-      var maxPage = Math.ceil(length / 8);
-      res.render("catalog", {books: result, 
-        currentPage : page,
-        numPages : maxPage,
-        numRes : books.length,
-        user: req.user});
-    });
+        var maxPage = Math.ceil(length / 8);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      });
+    }
+    else {
+      collection.find({title : regTitle, genre: regGenre, isDeleted : false}, function(err, books) { 
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
+        }
+        var maxPage = Math.ceil(length / 8);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      });
+    }
   }
   // Filter based on only genre
   else if (usertitle == "" && usergenre != "all") {
-    collection.find({genre: regGenre}, function(err, books) { 
-      if (err) throw err;
-      result = [];
-      length = books.length;
-      for (var i = 8 * (page - 1); i < 8 * page; i++) {
-        if (i < length) {
-          result.push(books[i]);
+    if (req.user && req.user.isAdmin) {
+      collection.find({genre: regGenre}, function(err, books) { 
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
         }
-      }
-      var maxPage = Math.ceil(length / 8);
-      console.log("max pages: " + maxPage + " currentPage: " + page + " numberRes: " + books.length);
-      res.render("catalog", {books: result, 
-        currentPage : page,
-        numPages : maxPage,
-        numRes : books.length,
-        user: req.user});
-    });
+        var maxPage = Math.ceil(length / 8);
+        console.log("max pages: " + maxPage + " currentPage: " + page + " numberRes: " + books.length);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      });
+    }
+    else {
+      collection.find({genre: regGenre, isDeleted : false}, function(err, books) { 
+        if (err) throw err;
+        result = [];
+        length = books.length;
+        for (var i = 8 * (page - 1); i < 8 * page; i++) {
+          if (i < length) {
+            result.push(books[i]);
+          }
+        }
+        var maxPage = Math.ceil(length / 8);
+        // console.log("max pages: " + maxPage + " currentPage: " + page + " numberRes: " + books.length);
+        res.render("catalog", {books: result, 
+          currentPage : page,
+          numPages : maxPage,
+          numRes : books.length,
+          user: req.user});
+      });
+    }
   }
 });
 
@@ -304,7 +384,7 @@ router.post('/catalog', function(req, res){
   })
 });
 
-// soft DELETE route (so actually a PUT request)
+// soft DELETE route (so actually a POST request)
 router.post('/book/:id/delete', function(req, res){
   var collection = db.get("books");
   collection.findOneAndUpdate({_id: req.params.id},
@@ -312,7 +392,7 @@ router.post('/book/:id/delete', function(req, res){
           isDeleted : true,
       }}, function(err, book){
           if(err) console.log(err);
-          //if "delete" is successful, redirect to /books
+          //if "delete" is successful, redirect to /catalog
           res.redirect('/catalog');
       });
 });
@@ -325,7 +405,7 @@ router.post('/book/:id/recover', function(req, res){
           isDeleted : false,
       }}, function(err, book){
           if(err) console.log(err);
-          //if "delete" is successful, redirect to /books
+          //if "delete" is successful, redirect to /catalog
           res.redirect('/catalog');
       });
 });
@@ -398,7 +478,4 @@ router.delete("/:id/wishlist", function(req, res){
   );
 });
 
-
 module.exports = router;
-
-
