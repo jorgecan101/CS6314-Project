@@ -1,0 +1,44 @@
+<%- include ('partials/header') %>
+<div class="container">
+    <h1>Hello <%= user.username%>!</h1>
+    <h2>Please confirm your order:</h2>
+    <hr>
+    <div class="container">
+        <% items.forEach(function(item){ %>
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <a href="/book/<%= item.bookObject._id %>">
+                        <img class="card-img" src="../images/<%= item.bookObject.image %>"
+                            style="width:180px; height:180px;"/>
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div id="bookinfo" class="row align-items-center" style="font-size: 0.9rem">
+                            <div class="col-md-6">
+                                <p><strong>Book title: </strong><%= item.bookObject.title %></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Amount: </strong><%= item.bookcount %></p>
+                            </div>
+                            <% if(!item.isEnough) { %>
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>The amount of the item is larger than our inventory.</strong>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+        <hr/>
+        <form action="/<%= user._id%>/success" method="POST">
+            <a href="/<%= user._id%>/cart" class="btn btn-primary">Back to cart</a>
+            <% if(cancheckout) { %>
+                <button type="submit" class="btn btn-success">Confirm</button>
+            <% } %>
+        </form>
+    </div>
+</div>
+
+<%- include ('partials/footer') %>

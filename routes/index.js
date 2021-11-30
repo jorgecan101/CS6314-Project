@@ -478,4 +478,225 @@ router.delete("/:id/wishlist", function(req, res){
   );
 });
 
+/**** Shopping Cart */
+router.get("/:id/cart", function(req, res){
+  var collection = db.get("cart");
+  Account.findById(req.params.id, function (err, user){
+    if(err){
+      res.redirect("/login");
+    }
+    collection.find({username: user.username}, function(err, items){
+      if(err){
+        res.redirect("/catalog");
+      }
+      res.render("cart", {user: user, items:items});
+    })
+  });
+});
+
+//add to cart
+router.post("/:id/cart", function (req, res){
+  var books_collection = db.get("books");
+  var cart_collection = db.get("cart");
+  books_collection.findOne({ _id: req.body.cart }, function (err, book){
+    if(err) throw err;
+    var url = "/book/" + book._id;
+    cart_collection.findOne({ userid: req.user._id, bookObject: book}, function (err, result){
+      if(err) throw err;
+      if(result){
+        var inventory = parseInt(book.inventory);
+        var originalbookcount = parseInt(result.bookcount);
+        var add = parseInt(req.body.quantity);
+        cart_collection.findOneAndUpdate({ userid: req.user._id, bookObject: book},
+          { $set: {
+            bookcount: originalbookcount + add,
+            isEnough: originalbookcount + add <= inventory,
+          }},
+          function(err, cartItem){
+            if(err) throw err;
+            res.redirect(url);
+          }
+        );
+      } else{
+        var inventory = parseInt(book.inventory);
+        var bookcount = parseInt(req.body.quantity);
+        cart_collection.insert(
+          {
+            bookObject: book,
+            bookid: book._id,
+            bookname: book.title,
+            bookcount: bookcount,
+            userid: req.user._id,
+            username: req.user.username,
+            isEnough: bookcount <= inventory,
+          },
+          function (err, cartItem){
+            if(err) throw err;
+            res.redirect(url);
+          }
+        );
+      }
+    });
+  });
+});
+
+//Delete from cart
+router.post("/:id/cart/remove", function(req, res){
+  var cart_collection = db.get("cart");
+  var books_collection = db.get("books");
+  var url = "/" + req.params.id + "/cart";
+  var deduct = parseInt(req.body.removeQuantity);
+  var query = {bookname: req.body.itemname, username: req.body.username};
+  books_collection.findOne({title: req.body.itemname}, function(err, book){
+    if(err) throw err;
+    cart_collection.findOne(query, function (err, result){
+      if(err) throw err;
+      var inventory = parseInt(book.inventory);
+      var originalbookcount = parseInt(result.bookcount);
+
+      if(originalbookcount > deduct){
+        cart_collection.findOneAndUpdate(query, {
+          $set: {
+            bookcount: originalbookcount - deduct,
+            isEnough: originalbookcount - deduct <= inventory,
+          },
+          function(err, cartItem){
+            if(err) throw err;
+            res.redirect(url);
+          }
+        });
+      } else{
+        cart_collection.remove(query, function(err, ans){
+          if(err) throw err;
+          res.redirect(url);
+        });
+      }
+    })
+  })
+});
+
+//delete all from cart
+router.post("/:id/cart/removeAll", function(req, res){
+  var cart_collection = db.get("cart");
+  var url = "/" + req.params.id + "/cart";
+  cart_collection.remove({bookname: req.body.itemname, username: req.body.username}, function(err, ans){
+    if (err) throw err;
+    res.redirect(url);
+  });
+});
+
+// add more to cart
+router.post("/:id/cart/add", function(req, res){
+  var cart_collection = db.get("cart");
+  var books_collection = db.get("books");
+  var url = "/" + req.params.id + "/cart";
+  var add = parseInt(req.body.addQuantity);
+  var query = {bookname: req.body.itemname, username: req.body.username};
+  books_collection.findOne({title: req.body.itemname}, function(err, book){
+    cart_collection.findOne(query, function(err, result){
+      if(err) throw err;
+      var inventory = parseInt(book.inventory);
+      var originalbookcount = parseInt(result.bookcount);
+      cart_collection.findOneAndUpdate(query, {
+        $set: {
+          bookcount: originalbookcount + add,
+          isEnough: originalbookcount + add <= inventory,
+        },
+        function(err, cartItem){
+          if(err) throw err;
+          res.redirect(url);
+        }
+      })
+    })
+  });
+})
+
+//get checkout page
+router.get("/:id/checkout", function(req, res){
+  var cart_collection = db.get("cart");
+  var cancheckout = true;
+  Account.findById(req.params.id, function(err, user){
+    if(err){
+      res.redirect("/login");
+    }
+    cart_collection.find({ username: user.username }, function(err, items){
+      if(err){
+        res.redirect("/catalog");
+      }
+      for(var i = 0; i < items.length; i++){
+        if(!items[i].isEnough){
+          cancheckout = false;
+        }
+      }
+      res.render("checkout", {user: user, items: items, cancheckout: cancheckout});
+    });
+  });
+});
+
+//success
+router.post("/:id/success", function (req, res){
+  var cart_collection = db.get("cart");
+  var books_collection = db.get("books");
+  var orders_collection = db.get("orders");
+
+  var timeStamp = new Date().toLocaleString();
+	var orderId = new Date().getTime().toFixed(0).toString();
+  
+  Account.findById(req.params.id, function(err, user){
+    if(err){
+      res.redirect("/login");
+    }
+
+    var order = {
+      books: [],
+      userid: req.params.id,
+      username: user.username,
+      orderid: orderId,
+      ordertime: timeStamp,
+    }
+    cart_collection.find({ username: user.username }, function(err, items){
+      if(err) throw err;
+
+      //update books inventory
+      for(var i = 0; i < items.length; i++){
+        books_collection.findOne({title: items[i].bookname}, function (err, book){
+          var inventory = parseInt(book.inventory);
+          var add = parseInt(items[i].bookcount);
+          books_collection.findOneAndUpdate({title: items[i].bookname }, {
+            $set: {
+              inventory: inventory - add,
+            },
+            function (err, book){
+            if(err) throw err;
+            }
+          })
+        })
+        if(!items[i].isEnough){
+          cancheckout = false;
+        }
+      }
+
+      //making order object 
+      for(var i = 0; i < items.length; i++){
+        var book = {
+          bookObject: items[i].bookObject,
+          bookid: items[i].bookid,
+          bookname: items[i].bookname,
+          bookcount: items[i].bookcount,
+        }
+        order.books.push(book);
+      }
+
+      orders_collection.insert(order, function(err, orders){
+        if(err) throw err;
+      });
+    });
+    //remove from cart
+    cart_collection.remove({username: user.username}, function(err, items){
+      if(err) throw err;
+      res.render("confirm", {user: user});
+    });
+  });
+})
+
 module.exports = router;

@@ -25,6 +25,11 @@
             <input name="wish" id="wish" value="<%= book._id %>" type="hidden" /><br>
             <button type="submit" class="btn btn-primary">Add to Wishlist </button>
         </form>
+        <form action="/<%= user._id %>/cart" method="POST">
+            <input name="cart" id="cart" value="<%= book._id %>" type="hidden" /><br>
+            <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+            <button type="submit" class="btn btn-primary">Add to Cart </button>
+        </form>
     <%}%>
 
     <% if(user && user.isAdmin) {%>
