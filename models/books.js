@@ -7,6 +7,7 @@ var Book = new mongoose.Schema({
     publisher: String,
     description: String,
     genre: [ String ],
+    inventory: {type: string},
     image: String,
     isbn: String,
     isDeleted: {type:Boolean, default:false} // False intially when creating a new book

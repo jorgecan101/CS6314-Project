@@ -340,6 +340,7 @@ router.put('/book/:id', function(req, res){
           publisher: fields.publisher,
           description: fields.desc,
           genre: fields.genre,
+          inventory: fields.inventory,
           image: image,
           isbn: fields.isbn,
         }
@@ -374,6 +375,7 @@ router.post('/catalog', function(req, res){
       publisher: fields.publisher,
       description: fields.desc,
       genre: fields.genre,
+      inventory: fields.inventory,
       image: files.image.originalFilename,
       isbn: fields.isbn,
       isDeleted: false
@@ -659,12 +661,15 @@ router.post("/:id/success", function (req, res){
 
       //update books inventory
       for(var i = 0; i < items.length; i++){
-        books_collection.findOne({title: items[i].bookname}, function (err, book){
+        var add = parseInt(items[i].bookcount);
+        var query = {title: items[i].bookname};
+        books_collection.findOne(query, function (err, book){
           var inventory = parseInt(book.inventory);
-          var add = parseInt(items[i].bookcount);
-          books_collection.findOneAndUpdate({title: items[i].bookname }, {
+          var remain = inventory - add;
+          console.log(remain);
+          books_collection.findOneAndUpdate(query, {
             $set: {
-              inventory: inventory - add,
+              inventory: remain,
             },
             function (err, book){
             if(err) throw err;
