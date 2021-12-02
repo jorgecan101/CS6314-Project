@@ -583,7 +583,7 @@ router.post("/:id/cart/remove", function(req, res){
 router.post("/:id/cart/removeAll", function(req, res){
   var cart_collection = db.get("cart");
   var url = "/" + req.params.id + "/cart";
-  cart_collection.remove({bookname: req.body.itemname, username: req.body.username}, function(err, ans){
+  cart_collection.remove({bookname: req.body.bookname, username: req.body.username}, function(err, ans){
     if (err) throw err;
     res.redirect(url);
   });
