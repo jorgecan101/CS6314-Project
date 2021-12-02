@@ -32,7 +32,7 @@ a {
   text-decoration: none;
 }
 
-.text-fix a:hover {
+.text-fix:hover {
   color: white;
 }
 
@@ -60,11 +60,3 @@ a {
   text-decoration: none;
   color: #1d4b6d;
 }
-
-/* #registerpage{
-  padding-bottom: 20%;
-}
-
-footer {
-  bottom: 0;
-} */

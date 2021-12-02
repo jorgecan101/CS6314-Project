@@ -119,16 +119,18 @@ router.get('/logout', function(req, res) {
 });
 
 /* GET catalog page */
+//var persistantTitle;
 
-router.get('/catalog', async function(req, res) {
+router.get('/catalog', function(req, res) {
   var page = parseInt(req.query.page) || 1;
   var result = [];
   var length = 0;
   var collection = db.get("books");
   var usertitle = req.query.title;
   var usergenre = req.query.genre;
-  //persistantTitle.push(usertitle[0]);
+  // var persistantTitle = [usertitle];
   console.log("uTitle: " + usertitle + " uGenre: " + usergenre);
+
   var regTitle = new RegExp(usertitle, 'i');
   var regGenre = new RegExp(usergenre, 'i');
   // No filters applied
