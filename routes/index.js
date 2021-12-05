@@ -710,10 +710,18 @@ router.get("/:id/history", function(req,res){
     if(err){
       res.redirect("/login");
     }
-    orders_collection.find({username: user.username}, function(err, orders){
-      if(err) throw err;
-      res.render('history', {user: user, orders: orders});
-    });
+    if(user.isAdmin){
+      orders_collection.find({}, function(err, orders){
+        if(err) throw err;
+        res.render("history", {user: user, orders: orders});
+      });
+    }
+    else {
+      orders_collection.find({username: user.username}, function(err, orders){
+        if(err) throw err;
+        res.render("history", {user: user, orders: orders});
+      });
+    }
   });
 });
 
