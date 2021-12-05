@@ -29,6 +29,20 @@
         <form action="/<%= user._id %>/cart" method="POST">
             <input name="cart" id="cart" value="<%= book._id %>" type="hidden" /><br>
             <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+            <script>
+                
+                window.onload() = function(){
+                    
+                    var userChoice = document.getElementById("quantity");
+                    var bookAmount = "<%= book.inventory %>"; // how much user can take
+                    if (userChoice > bookAmount) {
+                        // alert("Too high");
+                        document.append(
+                        '<div class="alert alert-danger" role="alert"><strong>The amount of the item is larger than our inventory.</strong></div>');
+                    }
+                }
+            
+            </script>
             <button type="submit" class="btn btn-primary">Add to Cart </button>
         </form>
     <%}%>

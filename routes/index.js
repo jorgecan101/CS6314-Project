@@ -545,13 +545,13 @@ router.post("/:id/cart", function (req, res){
 });
 
 //Delete from cart
-router.post("/:id/cart/remove", function(req, res){
+router.delete("/:id/cart/remove", function(req, res){
   var cart_collection = db.get("cart");
   var books_collection = db.get("books");
   var url = "/" + req.params.id + "/cart";
   var deduct = parseInt(req.body.removeQuantity);
-  var query = {bookname: req.body.itemname, username: req.body.username};
-  books_collection.findOne({title: req.body.itemname}, function(err, book){
+  var query = {bookname: req.body.bookname, username: req.body.username};
+  books_collection.findOne({title: req.body.bookname}, function(err, book){
     if(err) throw err;
     cart_collection.findOne(query, function (err, result){
       if(err) throw err;
@@ -564,11 +564,9 @@ router.post("/:id/cart/remove", function(req, res){
             bookcount: originalbookcount - deduct,
             isEnough: originalbookcount - deduct <= inventory,
           },
-          function(err, cartItem){
-            if(err) throw err;
-            res.redirect(url);
-          }
-        });
+        })
+        .then((updateDoc) => { });
+        res.redirect(url);
       } else{
         cart_collection.remove(query, function(err, ans){
           if(err) throw err;
@@ -580,7 +578,7 @@ router.post("/:id/cart/remove", function(req, res){
 });
 
 //delete all from cart
-router.post("/:id/cart/removeAll", function(req, res){
+router.delete("/:id/cart/removeAll", function(req, res){
   var cart_collection = db.get("cart");
   var url = "/" + req.params.id + "/cart";
   cart_collection.remove({bookname: req.body.bookname, username: req.body.username}, function(err, ans){
@@ -594,26 +592,25 @@ router.post("/:id/cart/add", function(req, res){
   var cart_collection = db.get("cart");
   var books_collection = db.get("books");
   var url = "/" + req.params.id + "/cart";
+  //var url = "/catalog"; //reroute to catalog page for now
   var add = parseInt(req.body.addQuantity);
-  var query = {bookname: req.body.itemname, username: req.body.username};
-  books_collection.findOne({title: req.body.itemname}, function(err, book){
+  var query = {bookname: req.body.bookname, username: req.body.username};
+  books_collection.findOne({title: req.body.bookname}, function(err, book){
     cart_collection.findOne(query, function(err, result){
       if(err) throw err;
       var inventory = parseInt(book.inventory);
       var originalbookcount = parseInt(result.bookcount);
-      cart_collection.findOneAndUpdate(query, {
+      cart_collection.update(query, {
         $set: {
           bookcount: originalbookcount + add,
           isEnough: originalbookcount + add <= inventory,
         },
-        function(err, cartItem){
-          if(err) throw err;
-          res.redirect(url);
-        }
       })
-    })
+      .then((updateDoc) => { });
+      res.redirect(url);
+    });
   });
-})
+});
 
 //get checkout page
 router.get("/:id/checkout", function(req, res){
@@ -705,5 +702,33 @@ router.post("/:id/success", function (req, res){
     });
   });
 })
+
+//get order history 
+router.get("/:id/history", function(req,res){
+  var orders_collection = db.get("orders");
+  Account.findById(req.params.id, function(err, user){
+    if(err){
+      res.redirect("/login");
+    }
+    orders_collection.find({username: user.username}, function(err, orders){
+      if(err) throw err;
+      res.render('history', {user: user, orders: orders});
+    });
+  });
+});
+
+//get order detail
+router.get("/:id/:orderid", function(req, res){
+  var orders_collection = db.get("orders");
+  Account.findById(req.params.id, function(err, user){
+    if(err){
+      res.redirect("/login");
+    }
+    orders_collection.findOne({_id: req.params.orderid}, function(err, order){
+      if(err) throw err;
+      res.render('orderdetails', {user: user, order: order, items: order.books});
+    });
+  });
+});
 
 module.exports = router;

@@ -19,19 +19,19 @@
                                     <p class="card-text">Amount: <%= item.bookcount %></p>
                                 <!-- </div> -->
                                 <!-- <div class="col-md-6"> -->
-                                    <form action="/<%= user._id%>/cart/remove" method="POST">
-                                        <input name="itemname" id="itemname" value="<%= item.bookObject.title %>" type="hidden" />
+                                    <form action="/<%= user._id%>/cart/remove?_method=DELETE" method="POST">
+                                        <input name="bookname" id="bookname" value="<%= item.bookObject.title %>" type="hidden" />
                                         <input name="username" id="username" value="<%= user.username %>" type="hidden" />
                                         <button type="submit" class="btn btn-danger">Remove</button>
                                         <input type="number" id="removeQuantity" name="removeQuantity" min="1" max="10" value="1">
                                     </form>
                                     <form action="/<%= user._id%>/cart/add" method="POST">
-                                        <input name="itemname" id="itemname" value="<%= item.bookObject.title %>" type="hidden" />
+                                        <input name="bookname" id="bookname" value="<%= item.bookObject.title %>" type="hidden" />
                                         <input name="username" id="username" value="<%= user.username %>" type="hidden" />
                                         <button type="submit" class="btn btn-success">Add</button>
                                         <input type="number" id="addQuantity" name="addQuantity" min="1" max="10" value="1">
                                     </form>
-                                    <form action="/<%= user._id%>/cart/removeAll" method="POST">
+                                    <form action="/<%= user._id%>/cart/removeAll?_method=DELETE" method="POST">
                                         <input name="bookname" id="bookname" value="<%= item.bookObject.title %>" type="hidden" />
                                         <input name="username" id="username" value="<%= user.username %>" type="hidden" />
                                         <button type="submit" class="btn btn-danger">Remove All</button>
