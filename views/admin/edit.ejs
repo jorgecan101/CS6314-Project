@@ -1,0 +1,45 @@
+<%- include ('../partials/header') %>
+
+<div class="container">
+<h1> Edit Book </h1>
+
+
+<form action="/book/<%= book._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+
+<div class="form-group">
+	<input type="text" name="title" class="form-control" value="<%= book.title %>">
+</div>
+<div class="form-group">
+	<input type="text" name="author" class="form-control" value="<%= book.author %>">
+</div>
+<div class="form-group">
+	<input type="text" name="publisher" class="form-control" value="<%= book.publisher %>">
+</div>
+<div class="form-group">
+	<textarea name="desc" class="form-control"><%= book.description %></textarea>
+</div>
+<div class="form-group">
+	<input type="text" name="genre" class="form-control" value="<%= book.genre %>">
+</div>
+<div class="form-group">
+	<input type="text" name="inventory" class="form-control" value="<%= book.inventory %>"/>
+</div>
+<div class="form-group">
+	<input type="file" id="image" name="image" class="custom-file-input"/>
+	<label class="custom-file-label" for="image"><%=book.image%></label>
+</div>
+<div class="form-group">
+	<input type="text" name="isbn" class="form-control" value="<%= book.isbn %>">
+</div>
+<div class="form-group">
+	<button type="submit" class="btn btn-info" >Save</button>
+</div>
+
+
+</form>
+
+<a href="/catalog">Cancel</a>
+
+</div>
+
+<%- include ('../partials/footer') %>

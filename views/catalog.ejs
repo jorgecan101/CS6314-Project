@@ -1,45 +1,84 @@
 <%- include ('partials/header') %>
 
-<div class="jumbotron">
-    <h1 class="display-4">Book Catalog</h1>
-    <p class="lead">This is the list of books</p>
-    <a class="btn btn-primary btn-md" href="/books/new" role="button">
-      Add new video</a
-    >
-    <form action="videos" class="form-group" method="GET">
-      <br>
-      <input name="search" type="text" placeholder="Enter Title.." />
-      <br>
-      <label for="videos">Choose a genre:</label>
-  
-      <select
-        name="genre"
-        class="form-group"
-        id="videos"
-        onchange="searchGenre()"
-      >
-        <option value="choose">Choose</option>
-        <option value="scifi">SciFi</option>
-        <option value="fantasy">Fantasy</option>
-        <option value="drama">Drama</option>
-        <option value="animation">Animation</option>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">Catalog</h1>
+  </div>
+  <h2>Search</h2>
+  <div class="search-bar">
+    <form action="/catalog" method="GET">
+      <input type="text" id="title" name="title" placeholder="Enter title" style="margin-top: 10px;"><br>
+      <select name="genre" id="genre">
+        <option value="all">All</option>
+        <option value="General and Literary Fiction">General and Literary Fiction</option>
+        <option value="Young Adult Fiction">Young Adult Fiction</option>
+        <option value="Children's Fiction">Children's Fiction</option>
+        <option value="Crime">Crime</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Romance">Romance</option>
+        <option value="Saga">Saga</option>
       </select>
-  
-      <button type="submit" class="btn btn-primary btn-md">Search</button>
-    </form>
+      <input type="submit" value="Search">
+    </form> 
   </div>
-  
-  <div class="container">
-    <div class="row">
-      <% books.forEach(function(book){ %>
-      <div class="sm-col-3">
-        <!--<img src="images/<%= video.image %>" style="width: 200px; height: 200px;" class="img-thumbnail"/>-->
-        <div class="caption"><a href="books/<%= book._id %>"><%= book.title %></a></div>
-      </div>
-  
-      <% }); %>
-      
-    </div>
+  <a href="/catalog">Reset filters</a>
+  <% if(user && user.isAdmin) { %>
+    <a class="btn btn-primary btn-lg" href="/catalog/new" role="button">
+      Add new book</a>
+  <%} %>
+</div>
+
+<div class="container">
+  <div class="row">
+    <% for (var i = 0; i < books.length; i++) { %>
+      <% if(user && user.isAdmin){ %>
+        <div class="col-sm-3">
+          <div class="card myContent">
+            <img src="../images/<%=books[i].image %>" class="card-img-top" alt="<%= books[i].title %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= books[i].title %></h5>
+              <p class="card-text">Author: <%= books[i].author %></p>
+              <a href="book/<%= books[i]._id %>" class="btn btn-primary">Book details</a>
+            </div>
+          </div>
+        </div>
+      <%} else { %>
+        <% if(!books[i].isDeleted) {%>
+          <div class="col-sm-3">
+            <div class="card myContent">
+              <img src="../images/<%=books[i].image %>" class="card-img-top" alt="<%= books[i].title %>">
+              <div class="card-body">
+                <h5 class="card-title"><%= books[i].title %></h5>
+                <p class="card-text">Author: <%= books[i].author %></p>
+                <a href="book/<%= books[i]._id %>" class="btn btn-primary">Book details</a>
+              </div>
+            </div>
+          </div>
+        <%}%>
+      <%}%>
+    <% } %>
   </div>
+</div>
+
+<!-- What i was editing was trying to get it so it has the filters in the page query as well -->
+<br>
+<div class="container" id="paging" style="text-align: center; margin: auto">
+	<% if (currentPage == 1 && numPages>1) {%>
+    <%= parseInt(currentPage)  %>
+    <a href="/catalog?page=<%= parseInt(currentPage) + 1 %>"><i class="fas fa-chevron-right"></i></a>
+	<%} else if(currentPage < numPages) { %>
+    <a href="/catalog?page=<%= parseInt(currentPage) - 1 %>"><i class="fas fa-chevron-left"></i></a>
+    <%= parseInt(currentPage)  %>
+	  <a href="/catalog?page=<%= parseInt(currentPage) + 1 %>"><i class="fas fa-chevron-right"></i></a>
+	<%} else if(currentPage == numPages && numPages > 1) { %>
+    <a href="/catalog?page=<%= parseInt(currentPage) - 1 %>"><i class="fas fa-chevron-left"></i></a>
+    <%= parseInt(currentPage)  %>
+    <% } %>
+</div>
+
+<br>
+<br>
+<br>
 
 <%- include ('partials/footer') %>

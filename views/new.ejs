@@ -1,0 +1,55 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+<h1> New Book </h1>
+
+
+<form action="/catalog" method="POST" enctype="multipart/form-data">
+
+<div class="form-group">
+	<input type="text" name="title" class="form-control" placeholder="title">
+</div>
+<div class="form-group">
+	<input type="text" name="author" class="form-control" placeholder="author">
+</div>
+<div class="form-group">
+	<input type="text" name="publisher" class="form-control" placeholder="publisher">
+</div>
+<div class="form-group">
+	<textarea name="desc" class="form-control" placeholder="description"></textarea>
+</div>
+<div class="form-group">
+	<input type="text" name="genre" class="form-control" placeholder="genre">
+</div>
+<!--
+<div class="form-group">
+	<input type="text" name="image" class="form-control" placeholder="image"/>
+</div>
+-->
+<div class="form-group">
+	<input type="file" id="image" name="image" class="custom-file-input"/>
+	<label class="custom-file-label" for="image">Select an image file for the new book</label>
+</div>
+<div class="form-group">
+	<input type="text" name="isbn" class="form-control" placeholder="ISBN">
+</div>
+<div class="form-group">
+	<button type="submit" class="btn btn-info" >Save</button>
+</div>
+
+
+</form>
+
+<a href="/catalog">Cancel</a>
+
+</div>
+
+<script>
+	// Add the following code if you want the name of the file appear on select
+	$(".custom-file-input").on("change", function () {
+		var fileName = $(this).val().split("\\").pop();
+		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+</script>
+
+<%- include ('partials/footer') %>

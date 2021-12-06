@@ -1,0 +1,37 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+    <h1>Hello <%= user.username%>!</h1>
+    <h2>OrderID: <%= order.orderid %></h2>
+    <hr>
+    <% if(user && user.isAdmin) { %>
+        <p>Order's user: <%= order.username %></p>
+    <% } %>
+    <% items.forEach(function(item){ %>
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <a href="/book/<%= item.bookObject._id %>">
+                    <img class="card-img" src="../images/<%= item.bookObject.image %>"
+                        style="width:170px; height:170px;"/>
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div id="bookinfo" class="row align-items-center" style="font-size: 1.0rem">
+                        <div class="col-md-6">
+                            <p><strong>Book title: </strong><%= item.bookObject.title %></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Amount: </strong><%= item.bookcount %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+    <hr>
+    <a href="/catalog" class="btn btn-primary">Back to Home</a>
+    <a href="/<%= user._id%>/history" class="btn btn-primary">Back to History</a>
+</div>
+
+<%- include ('partials/footer') %>

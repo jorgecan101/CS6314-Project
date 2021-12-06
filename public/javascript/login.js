@@ -2,20 +2,20 @@ $(document).ready(function() {
 
     $('#loginForm').submit(function(e){
         e.preventDefault();
-        var email = $('#email').val();
+        var username = $('#username').val();
         var password = $('#password').val();
 
         $(".error").remove();
-        if(email.length < 1){
-            $('#email').after('<span class="error">Email is empty</span>');
+        if(username.length < 1){
+            $('#username').after('<span class="error">Username is empty</span>');
         }
         if(password.length < 1){
             $('#password').after('<span class="error">Password is empty</span>');
         }
         else{
-            console.log(password + " " + email);
+            console.log(password + " " + username);
             var userInfo = {
-                email: email,
+                username: username,
                 password: password
             };
             $.ajax({
@@ -24,6 +24,12 @@ $(document).ready(function() {
                 data: userInfo,
                 success: function(data) {
                    clearInputs();
+                   if(data.status === "Success"){
+                        window.location = data.redirect;
+                   }
+                   if(data.status === "Failure"){
+                        $('#submit').after('<span class="error">' + data.message + '</span>');
+                   }
                 },
                 error: function(){
                     
@@ -33,7 +39,7 @@ $(document).ready(function() {
     });
     
     function clearInputs() {
-        $("#email").val('');
+        $("#username").val('');
         $("#password").val('');
     }
 });

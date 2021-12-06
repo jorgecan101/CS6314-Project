@@ -2,10 +2,113 @@
 
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-              <h1 class="display-4">Public Library</h1>
-              <p class="lead">Welcome to our public library system. More to be added in the future. </p>
+              <h1 class="display-4 justify-content-center">Richardson Public Library</h1>
+              <p class="lead">Welcome to the Public Library System. We are open and offer a variety of services to help enrich our 
+                community. Feel free to check out any books that are in our catalog, or use any of our available sources we have available
+                at our location.</p>              
             </div>
+        </div>
+
+        <div class="container">
+          <div id="carouselExampleIndicators" class="carousel slide custom-margins" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner justify-content-center">
+              <div class="carousel-item active">
+                <img src="../images/carousel-1.jpg" class="img-size-change" alt="Library Gathering">
+              </div>
+              <div class="carousel-item">
+                <img src="../images/carousel-2.jpg" class="img-size-change" alt="Man reading with headphones">
+              </div>
+              <div class="carousel-item">
+                <img src="../images/carousel-3.jpg" class="img-size-change" alt="Library Computers">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
+        </div>
+
+      <hr class="homepage-border">
+
+      <div class="container container-fluid">
+        <h3>Monthy Library Events</h3>
+        <div class="row">
+          <div class="col-md-4" >
+            <iframe src="https://calendar.google.com/calendar/embed?height=500&wkst=1&bgcolor=%23ffffff&ctz=America%2FChicago&showTitle=0&showNav=0&showDate=0&showPrint=0&showTabs=0&showTz=0&showCalendars=0" style="border:solid 1px #777" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>      
+          </div>
+          <div class="col-md-8">
+            <h4>Thursday Nov. 25</h4>
+            <p>Library is closed for Thanksgiving Holiday</p>
+            <hr class="homepage-border">
+            <h4>Tuesday Nov. 30</h4>
+            <h6>Christmas Pajama-Rama Story Time</h6>
+            <p>Cozy up in your favorite jammies and join us for bedtime stories, songs, and rhymes for the whole family.</p>
+            <br />
+            <h6>Canned Food Drive</h6>
+            <p>Please join us for our Monthy canned food drive, and give back to the community!</p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="homepage-border">
+
+      <div class="container-fluid navbar-light contact-color text-fix">
+        <br>
+        <div class="row">
+            <div class="col-md-6" >
+                <h6>About Us</h6>
+                <p>We are a public library founded in 2021 with the sole purpose of bringing joy and enriching the lives
+                    of the community. We offer many different books to choose from, and many other services such as free
+                    wifi, and serveral community events throughout the week. Please join the newsletter to stay updated 
+                    with all events going on at the library.
+                </p>
+                <div class="row">
+                <div class="col-md-6" >
+                    <h6>Quick Links</h6>
+                    <ul>
+                    <li><a href="#" class="text-fix">Customer Service</a></li>
+                    <li><a href="catalog" class="text-fix">Catalog</a></li>
+                    <li><a href="#" class="text-fix">Popular Information</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6" >
+                    <h6>Helpful Links</h6>
+                    <ul>
+                    <li><a href="#" class="text-fix">Accessibility</a></li>
+                    <li><a href="#" class="text-fix">Site Map</a></li>
+                    <li><a href="#" class="text-fix">Copyright Notices</a></li>
+                </ul>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-3" >
+                <h6>Contact Us</h6>
+                <p>Location: 800 W Campbell Rd, Richardson, TX 75080</p>
+                <p>Phone: 1-800-555-5555</p>
+                <p>Email: library.support@protonmail.com</p>
+            </div>
+            <div class="col-md-3" >
+                <h6>Social Media</h6>
+                    <a href="#" class="fa fa-instagram"></a>
+                    <a href="#" class="fa fa-youtube"></a>
+                    <a href="#" class="fa fa-facebook"></a>
+                    <a href="#" class="fa fa-pinterest"></a>
+                    <a href="#" class="fa fa-twitter"></a>      
+            </div>
+        </div>
+    </div>
+
+    <hr class="homepage-border">
 
 
 <%- include ('partials/footer') %>

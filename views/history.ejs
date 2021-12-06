@@ -1,0 +1,32 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+    <h1>Hello <%= user.username%>!</h1>
+    <% if(user && !user.isAdmin) { %>		
+        <h2>Your order history:</h2>
+	<% } %>
+    <% if(user && user.isAdmin) { %>
+        <h2>All order history:</h2>
+    <% } %>
+    <hr>
+    <% orders.forEach(function(order){ %>
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="card-body">
+                    <div id="bookinfo" class="row align-items-center" style="font-size: 1.0rem">
+                        <div class="col-md-6">
+                            Order ID: <a href="/<%= user._id %>/<%= order._id %>" ><%= order.orderid %></a><br />
+                        </div>
+                        <div class="col-md-6">
+                            Order Date: <%= order.ordertime %><br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% }); %>
+    <hr>
+    <a href="/catalog" class="btn btn-primary">Back to Home</a>
+</div>
+<br><br><br>
+<%- include ('partials/footer') %>
