@@ -6,12 +6,12 @@ strong	password.	User	passwords	should	be	hashed	and	hashed
 version	of	passwords	should	be	stored	in	the	database
 */
 $(document).ready(function() {
-    var emailCheck = true;
-    var firstCheck = true;
-    var lastCheck = true;
-    var usernameCheck = true;
-    var passwordCheck = true;
-    var confirmCheck = true;
+    var emailCheck = false;
+    var firstCheck = false;
+    var lastCheck = false;
+    var usernameCheck = false;
+    var passwordCheck = false;
+    var confirmCheck = false;
 
     var email = "";
     var first = "";
@@ -77,8 +77,8 @@ $(document).ready(function() {
         }
     });
     $('#confirm').blur(function(){
-        confirm = $('confirm').val();
-        password = $('password').val();
+        confirm = $('#confirm').val();
+        password = $('#password').val();
         $(".error").remove();
         if(confirm != password){
             $('#confirm').after('<span class="error">Passwords do not match</span>');
