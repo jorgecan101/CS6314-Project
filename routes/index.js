@@ -305,6 +305,10 @@ router.put('/book/:id', function(req, res){
   var form = new formidable.IncomingForm();
   var image = "";
   form.parse(req, function(err, fields, files){
+    //console.log(files);
+    var str = fields.genre;
+    var genre = new Array();
+    genre = str.split(',');
     collection.findOne({_id: req.params.id }, function(err, book){
       if(err) throw err;
       if(files.image.originalFilename === ""){
@@ -325,8 +329,8 @@ router.put('/book/:id', function(req, res){
           author: fields.author,
           publisher: fields.publisher,
           description: fields.desc,
-          genre: fields.genre,
-          inventory: fields.inventory,
+          genre: genre,
+          inventory: parseInt(fields.inventory),
           image: image,
           isbn: fields.isbn,
         }
@@ -349,6 +353,9 @@ router.post('/catalog', function(req, res){
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files){
     //console.log(files);
+    var str = fields.genre;
+    var genre = new Array();
+    genre = str.split(',');
     var oldpath = files.image.filepath;
 		var newpath = 'public/images/' + files.image.originalFilename;
 		var rawData = fs.readFileSync(oldpath);
@@ -360,8 +367,8 @@ router.post('/catalog', function(req, res){
       author: fields.author,
       publisher: fields.publisher,
       description: fields.desc,
-      genre: fields.genre,
-      inventory: fields.inventory,
+      genre: genre,
+      inventory: parseInt(fields.inventory),
       image: files.image.originalFilename,
       isbn: fields.isbn,
       isDeleted: false
