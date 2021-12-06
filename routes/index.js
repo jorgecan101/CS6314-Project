@@ -1,23 +1,9 @@
 var express = require('express');
 var router = express.Router();
-/*
-var mongoose = require('mongoose');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Connection error:'));
-db.once('open', function callback() {
-  console.log("Connnected to db");
-});
-*/
 var monk = require("monk");
 var db = monk("localhost:27017/library");
-
 var passport = require('passport');
 var Account = require('../models/account');
-// var Book = require('../models/books');
-//Cart Schema
-// var Cart = require("../models/cart");
-//var Wishlist = require("../models/wishlist");
-//var accountID = req.Account._id;
 var formidable = require('formidable');
 var fs = require('fs');
 var path = require('path');
@@ -120,7 +106,6 @@ router.get('/logout', function(req, res) {
 
 /* GET catalog page */
 //var persistantTitle;
-
 router.get('/catalog', function(req, res) {
   var page = parseInt(req.query.page) || 1;
   var result = [];
@@ -305,7 +290,7 @@ router.get('/book/:id', function(req, res) {
 
 /* ADMIN routes */
 
-// GET show edit form 
+/* GET show edit form */
 router.get('/book/:id/edit', function(req, res){
   var collection = db.get("books");
   collection.findOne({_id: req.params.id}, function(err, book){
@@ -407,7 +392,7 @@ router.post('/book/:id/delete', function(req, res){
       });
 });
 
-//recover a book
+// POST recover a book
 router.post('/book/:id/recover', function(req, res){
   var collection = db.get("books");
   collection.findOneAndUpdate({_id: req.params.id},
@@ -441,9 +426,6 @@ router.post("/:id/wishlist", function(req, res){
 
   books_collection.findOne({_id: req.body.wish }, function(err, book){
     if (err) throw err;
-    // var url = "/home/" + req.body.like;
-    // var url = "/home";
-
     wl_collection.findOne(
       {
         userid: req.user._id, 
@@ -465,7 +447,7 @@ router.post("/:id/wishlist", function(req, res){
             }, 
             function (err, wishlist){
               if (err) throw err;
-              res.redirect('/home');
+              res.redirect('/catalog');
             }
           );
         }
@@ -488,7 +470,9 @@ router.delete("/:id/wishlist", function(req, res){
   );
 });
 
-/**** Shopping Cart */
+/* Shopping Cart */
+
+// GET view current user's cart
 router.get("/:id/cart", function(req, res){
   var collection = db.get("cart");
   Account.findById(req.params.id, function (err, user){
@@ -504,7 +488,7 @@ router.get("/:id/cart", function(req, res){
   });
 });
 
-//add to cart
+// POST add to cart
 router.post("/:id/cart", function (req, res){
   var books_collection = db.get("books");
   var cart_collection = db.get("cart");
@@ -550,7 +534,7 @@ router.post("/:id/cart", function (req, res){
   });
 });
 
-//Delete from cart
+// DELETE from cart
 router.delete("/:id/cart/remove", function(req, res){
   var cart_collection = db.get("cart");
   var books_collection = db.get("books");
@@ -583,7 +567,7 @@ router.delete("/:id/cart/remove", function(req, res){
   })
 });
 
-//delete all from cart
+// DELETE all from cart
 router.delete("/:id/cart/removeAll", function(req, res){
   var cart_collection = db.get("cart");
   var url = "/" + req.params.id + "/cart";
@@ -593,7 +577,7 @@ router.delete("/:id/cart/removeAll", function(req, res){
   });
 });
 
-// add more to cart
+// POST add more to cart
 router.post("/:id/cart/add", function(req, res){
   var cart_collection = db.get("cart");
   var books_collection = db.get("books");
@@ -618,7 +602,7 @@ router.post("/:id/cart/add", function(req, res){
   });
 });
 
-//get checkout page
+// GET checkout page
 router.get("/:id/checkout", function(req, res){
   var cart_collection = db.get("cart");
   var cancheckout = true;
@@ -640,7 +624,7 @@ router.get("/:id/checkout", function(req, res){
   });
 });
 
-//success
+//POST successfully checked out books
 router.post("/:id/success", function (req, res){
   var cart_collection = db.get("cart");
   var books_collection = db.get("books");
@@ -685,7 +669,6 @@ router.post("/:id/success", function (req, res){
           cancheckout = false;
         }
       }
-
       //making order object 
       for(var i = 0; i < items.length; i++){
         var book = {
@@ -709,7 +692,7 @@ router.post("/:id/success", function (req, res){
   });
 })
 
-//get order history 
+// GET order history 
 router.get("/:id/history", function(req,res){
   var orders_collection = db.get("orders");
   Account.findById(req.params.id, function(err, user){
@@ -731,7 +714,7 @@ router.get("/:id/history", function(req,res){
   });
 });
 
-//get order detail
+// GET order detail
 router.get("/:id/:orderid", function(req, res){
   var orders_collection = db.get("orders");
   Account.findById(req.params.id, function(err, user){
